@@ -14,7 +14,11 @@ test_simple_dash() {
 	assert_equals 0 $?
 }
 
-test_parent_mock_path() {
+##
+# PARENT_MOCK_PATH
+##
+
+test_parent() {
 	. ../test-helper.sh
 	PARENT_MOCK_PATH=/lol
 	mock_path tmp1:tmp2:tmp3
@@ -22,7 +26,7 @@ test_parent_mock_path() {
 	assert_equals 0 $?
 }
 
-test_trailing_dashes() {
+test_parent_trailing_dashes() {
 	. ../test-helper.sh
 	PARENT_MOCK_PATH=/lol/
 	mock_path tmp1/:tmp2/:tmp3/
@@ -30,7 +34,15 @@ test_trailing_dashes() {
 	assert_equals 0 $?
 }
 
-test_multiple_dashes() {
+test_parent_single_argument() {
+	. ../test-helper.sh
+	PARENT_MOCK_PATH=/lol
+	mock_path tmp1
+	test -n "$(echo $PATH | grep /lol/tmp1:)"
+	assert_equals 0 $?
+}
+
+test_parent_multiple_dashes() {
 	. ../test-helper.sh
 	PARENT_MOCK_PATH=/lol//
 	mock_path tmp1//:tmp2///:tmp3//
