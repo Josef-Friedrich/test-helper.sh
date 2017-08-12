@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/JosefFriedrich-shell/test-helper.svg?branch=master)](https://travis-ci.org/JosefFriedrich-shell/test-helper)
+
 # test-helper
 A collection of helper functions for shell-script testing
 
