@@ -1,0 +1,18 @@
+#! /bin/sh
+
+test_simple() {
+	. ../test-helper.sh
+	source_exec test_script.sh
+	assert_equals $(_echo_lol) lol
+}
+
+test_environment_variable() {
+	. ../test-helper.sh
+	SOURCE_EXEC_SEPARATOR='xxxxxxxxxxxx'
+	assert_equals "$(source_exec test_script.sh)" 'If you see this text, then the function didn’t work'
+}
+
+test_nonexistent() {
+	. ../test-helper.sh
+	assert_equals "$(source_exec nonexistent.sh)" 'The file “nonexistent.sh” doesn’t exist and therefore couldn’t be sourced!'
+}

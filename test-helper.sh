@@ -19,11 +19,14 @@ mock_path() {
 	IFS=$SAVEIFS
 }
 
-source_script() {
+source_exec() {
 	local TMP_FILE
 	TMP_FILE=$(mktemp)
 	local SEPARATOR
 	SEPARATOR='## This SEPARATOR is required for test purposes. Please don’t remove! ##'
+	if [ -n "$SOURCE_EXEC_SEPARATOR" ]; then
+		SEPARATOR="$SOURCE_EXEC_SEPARATOR"
+	fi
 	if [ -f "$1" ]; then
 		sed "/$SEPARATOR/Q" "$1" > "$TMP_FILE"
 		. "$TMP_FILE"
