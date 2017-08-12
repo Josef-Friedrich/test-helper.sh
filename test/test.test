@@ -1,0 +1,8 @@
+#! /bin/sh
+
+. ../test-helper.sh
+
+
+test_simple() {
+        assert_equals lol lol
+}
