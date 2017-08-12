@@ -1,0 +1,12 @@
+#! /bin/sh
+
+test_simple() {
+	. ../test-helper.sh
+	source_script test_script.sh
+	assert_equals $(_echo_lol) lol
+}
+
+test_nonexistent() {
+	. ../test-helper.sh
+	assert_equals "$(source_script nonexistent.sh)" 'The file “nonexistent.sh” doesn’t exist and therefore couldn’t be sourced!'
+}

@@ -20,8 +20,14 @@ mock_path() {
 }
 
 source_script() {
-	local TMP_FILE=$(mktemp)
-	local SEPARATOR='### This SEPARATOR is needed for the tests. Do not remove it! ##########'
-	sed "/$SEPARATOR/Q" "$1" > "$TMP_FILE"
-	. "$TMP_FILE"
+	local TMP_FILE
+	TMP_FILE=$(mktemp)
+	local SEPARATOR
+	SEPARATOR='## This SEPARATOR is required for test purposes. Please don’t remove! ##'
+	if [ -f "$1" ]; then
+		sed "/$SEPARATOR/Q" "$1" > "$TMP_FILE"
+		. "$TMP_FILE"
+	else
+		echo "The file “$1” doesn’t exist and therefore couldn’t be sourced!"
+	fi
 }
