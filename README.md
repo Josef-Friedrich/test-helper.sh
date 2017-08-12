@@ -36,7 +36,7 @@ mock_path for-script1:for-script2:for-script3
 echo $PATH
 ```
 
-Result: `/tests/bin/for-script1:/tests/bin/for-script1:/tests/bin/for-script1:/bin:/sbin/.....`
+Result: `/tests/bin/for-script1:/tests/bin/for-script2:/tests/bin/for-script3:/bin:/sbin/.....`
 
 ## `source_exec` (source executable scripts)
 
@@ -47,7 +47,7 @@ appears. By default the separator is:
 ## This SEPARATOR is required for test purposes. Please don’t remove! ##
 ```
 
-`cat executable_script.sh`
+`cat executable_script.sh`:
 
 ```sh
 #! /bin/sh
