@@ -1,17 +1,20 @@
 #! /bin/sh
 
 mock_path() {
+	_rm_dash() {
+		echo $@ | sed 's#/*$##'
+	}
 	SAVEIFS=$IFS
 	IFS=:
 	local TMP_PATH
 	TMP_PATH=
 	if [ -n "$PARENT_MOCK_PATH" ]; then
 		for P in $1 ; do
-			TMP_PATH="${TMP_PATH}${PARENT_MOCK_PATH}/${P}:"
+			TMP_PATH="${TMP_PATH}$(_rm_dash $PARENT_MOCK_PATH)/$(_rm_dash $P):"
 		done
 		export PATH="${TMP_PATH}${PATH}"
 	else
-		export PATH="$1:${PATH}"
+		export PATH="$(_rm_dash $1):${PATH}"
 	fi
 	IFS=$SAVEIFS
 }
