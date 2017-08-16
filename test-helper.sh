@@ -24,6 +24,16 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 mock_path() {
+	_readlink() {
+		local TMP
+		TMP=
+		TMP="$(readlink -f "$1")"
+		if [ -d "$TMP" ]; then
+			echo $TMP
+		else
+			echo "The given path “$TMP” doesn’t exist or is no directory." >&2
+		fi
+	}
 	SAVEIFS=$IFS
 	IFS=:
 	local MOCK_PATHS
@@ -31,7 +41,7 @@ mock_path() {
 	local TMP_PATHS
 	TMP_PATHS=
 	if [ -n "$PARENT_MOCK_PATH" ]; then
-		PARENT_MOCK_PATH=$(readlink -e "$PARENT_MOCK_PATH")
+		PARENT_MOCK_PATH=$(_readlink "$PARENT_MOCK_PATH")
 		for P in $MOCK_PATHS ; do
 			TMP_PATHS="$TMP_PATHS$PARENT_MOCK_PATH/$P:"
 		done
@@ -41,7 +51,7 @@ mock_path() {
 	local CLEANED_PATHS
 	CLEANED_PATHS=
 	for P in $MOCK_PATHS ; do
-		ABSOLTE_PATH=$(readlink -e $P)
+		ABSOLTE_PATH=$(_readlink "$P")
 		if [ -n "$ABSOLTE_PATH" ]; then
 			CLEANED_PATHS="$CLEANED_PATHS$ABSOLTE_PATH:"
 		fi

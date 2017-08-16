@@ -10,3 +10,9 @@ setup() {
 	[ "$status" -eq 69 ]
 	[ "${lines[0]}" = 'This is command1!' ]
 }
+
+@test "mock_path_nonexistent" {
+	mock_path loool
+	result=$(echo $PATH | grep loool || : )
+	[ -z "$result" ]
+}
