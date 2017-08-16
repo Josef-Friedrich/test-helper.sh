@@ -25,9 +25,7 @@
 
 mock_path() {
 	_readlink() {
-		local TMP
-		TMP=
-		TMP="$(readlink -f "$1")"
+		local TMP="$(readlink -f "$1")"
 		if [ -d "$TMP" ]; then
 			echo $TMP
 		else
@@ -36,10 +34,8 @@ mock_path() {
 	}
 	SAVEIFS=$IFS
 	IFS=:
-	local MOCK_PATHS
-	MOCK_PATHS=$1
-	local TMP_PATHS
-	TMP_PATHS=
+	local MOCK_PATHS="$1"
+	local TMP_PATHS=
 	if [ -n "$PARENT_MOCK_PATH" ]; then
 		PARENT_MOCK_PATH=$(_readlink "$PARENT_MOCK_PATH")
 		for P in $MOCK_PATHS ; do
@@ -48,8 +44,7 @@ mock_path() {
 		MOCK_PATHS="$TMP_PATHS"
 	fi
 	# Make to absolute paths and clean
-	local CLEANED_PATHS
-	CLEANED_PATHS=
+	local CLEANED_PATHS=
 	for P in $MOCK_PATHS ; do
 		ABSOLTE_PATH=$(_readlink "$P")
 		if [ -n "$ABSOLTE_PATH" ]; then
