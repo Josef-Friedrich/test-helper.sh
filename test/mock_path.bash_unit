@@ -1,14 +1,14 @@
 #! /bin/sh
 
 test_simple() {
-	. lib/test-helper.sh
+	. ../test-helper.sh
 	mock_path /tmp123
 	test -n "$(echo $PATH | grep /tmp123:)"
 	assert_equals 0 $?
 }
 
 test_simple_dash() {
-	. lib/test-helper.sh
+	. ../test-helper.sh
 	mock_path /tmp123/
 	test -n "$(echo $PATH | grep /tmp123:)"
 	assert_equals 0 $?
@@ -19,7 +19,7 @@ test_simple_dash() {
 ##
 
 test_parent() {
-	. lib/test-helper.sh
+	. ../test-helper.sh
 	PARENT_MOCK_PATH=/lol
 	mock_path tmp1:tmp2:tmp3
 	test -n "$(echo $PATH | grep /lol/tmp1:/lol/tmp2:/lol/tmp3:)"
@@ -27,7 +27,7 @@ test_parent() {
 }
 
 test_parent_trailing_dashes() {
-	. lib/test-helper.sh
+	. ../test-helper.sh
 	PARENT_MOCK_PATH=/lol/
 	mock_path tmp1/:tmp2/:tmp3/
 	test -n "$(echo $PATH | grep /lol/tmp1:/lol/tmp2:/lol/tmp3:)"
@@ -35,7 +35,7 @@ test_parent_trailing_dashes() {
 }
 
 test_parent_single_argument() {
-	. lib/test-helper.sh
+	. ../test-helper.sh
 	PARENT_MOCK_PATH=/lol
 	mock_path tmp1
 	test -n "$(echo $PATH | grep /lol/tmp1:)"
@@ -43,7 +43,7 @@ test_parent_single_argument() {
 }
 
 test_parent_multiple_dashes() {
-	. lib/test-helper.sh
+	. ../test-helper.sh
 	PARENT_MOCK_PATH=/lol//
 	mock_path tmp1//:tmp2///:tmp3//
 	test -n "$(echo $PATH | grep /lol/tmp1:/lol/tmp2:/lol/tmp3:)"
