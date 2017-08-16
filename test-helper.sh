@@ -1,4 +1,5 @@
 #! /bin/sh
+# shellcheck disable=SC2039,SC1111,SC1112
 
 # MIT License
 #
@@ -25,9 +26,10 @@
 
 mock_path() {
 	_readlink() {
-		local TMP="$(readlink -f "$1")"
+		local TMP
+		TMP="$(readlink -f "$1")"
 		if [ -d "$TMP" ]; then
-			echo $TMP
+			echo "$TMP"
 		else
 			echo "The given path “$TMP” doesn’t exist or is no directory." >&2
 		fi
@@ -59,13 +61,13 @@ mock_path() {
 source_exec() {
 	local TMP_FILE
 	TMP_FILE=$(mktemp)
-	local SEPARATOR
-	SEPARATOR='## This SEPARATOR is required for test purposes. Please don’t remove! ##'
+	local SEPARATOR='## This SEPARATOR is required for test purposes. Please don’t remove! ##'
 	if [ -n "$SOURCE_EXEC_SEPARATOR" ]; then
 		SEPARATOR="$SOURCE_EXEC_SEPARATOR"
 	fi
 	if [ -f "$1" ]; then
 		sed "/$SEPARATOR/Q" "$1" > "$TMP_FILE"
+		# shellcheck disable=SC1090
 		. "$TMP_FILE"
 	else
 		echo "The file “$1” doesn’t exist and therefore couldn’t be sourced!"
