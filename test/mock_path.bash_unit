@@ -20,16 +20,24 @@ test_simple_dash() {
 
 test_parent() {
 	. ../test-helper.sh
-	PARENT_MOCK_PATH=/lol
-	mock_path tmp1:tmp2:tmp3
-	test -n "$(echo $PATH | grep /lol/tmp1:/lol/tmp2:/lol/tmp3:)"
+	PARENT_MOCK_PATH=$(pwd)/bin
+	mock_path bin1:bin2:bin3
+	test -n "$(echo $PATH | grep test/bin/bin1:/)"
+	assert_equals 0 $?
+	test -n "$(echo $PATH | grep test/bin/bin2:/)"
+	assert_equals 0 $?
+	test -n "$(echo $PATH | grep test/bin/bin3:/)"
 	assert_equals 0 $?
 }
 
 test_parent_trailing_dashes() {
 	. ../test-helper.sh
-	PARENT_MOCK_PATH=/lol//
-	mock_path tmp1//:tmp2///:tmp3//
-	test -n "$(echo $PATH | grep /lol/tmp1:/lol/tmp2:/lol/tmp3:)"
+	PARENT_MOCK_PATH=$(pwd)/bin
+	mock_path bin1//:bin2///:bin3//
+	test -n "$(echo $PATH | grep test/bin/bin1:/)"
+	assert_equals 0 $?
+	test -n "$(echo $PATH | grep test/bin/bin2:/)"
+	assert_equals 0 $?
+	test -n "$(echo $PATH | grep test/bin/bin3:/)"
 	assert_equals 0 $?
 }
