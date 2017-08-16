@@ -2,7 +2,7 @@
 
 setup() {
 	. ./test-helper.sh
-	mock_path $(pwd)/test/bin/bin1
+	mock_path test/bin/bin1
 }
 
 @test "mock_path" {

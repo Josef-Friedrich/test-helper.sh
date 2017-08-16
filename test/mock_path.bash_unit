@@ -20,7 +20,7 @@ test_simple_dash() {
 
 test_parent() {
 	. ../test-helper.sh
-	PARENT_MOCK_PATH=$(pwd)/bin
+	PARENT_MOCK_PATH=bin
 	mock_path bin1:bin2:bin3
 	test -n "$(echo $PATH | grep test/bin/bin1:/)"
 	assert_equals 0 $?

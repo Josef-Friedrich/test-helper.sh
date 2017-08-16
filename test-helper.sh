@@ -24,21 +24,30 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 mock_path() {
-	_rm_dash() {
-		echo $@ | sed 's#/*$##'
-	}
 	SAVEIFS=$IFS
 	IFS=:
-	local TMP_PATH
-	TMP_PATH=
+	local MOCK_PATHS
+	MOCK_PATHS=$1
+	local TMP_PATHS
+	TMP_PATHS=
 	if [ -n "$PARENT_MOCK_PATH" ]; then
-		for P in $1 ; do
-			TMP_PATH="${TMP_PATH}$(_rm_dash $PARENT_MOCK_PATH)/$(_rm_dash $P):"
+		PARENT_MOCK_PATH=$(readlink -e "$PARENT_MOCK_PATH")
+		for P in $MOCK_PATHS ; do
+			TMP_PATHS="$TMP_PATHS$PARENT_MOCK_PATH/$P:"
 		done
-		export PATH="${TMP_PATH}${PATH}"
-	else
-		export PATH="$(_rm_dash $1):${PATH}"
+		MOCK_PATHS="$TMP_PATHS"
 	fi
+	# Make to absolute paths and clean
+	local CLEANED_PATHS
+	CLEANED_PATHS=
+	for P in $MOCK_PATHS ; do
+		ABSOLTE_PATH=$(readlink -e $P)
+		if [ -n "$ABSOLTE_PATH" ]; then
+			CLEANED_PATHS="$CLEANED_PATHS$ABSOLTE_PATH:"
+		fi
+	done
+	# Add to $PATH
+	export PATH="${CLEANED_PATHS}${PATH}"
 	IFS=$SAVEIFS
 }
 
