@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/JosefFriedrich-shell/test-helper.svg?branch=master)](https://travis-ci.org/JosefFriedrich-shell/test-helper)
+[![Build Status](https://travis-ci.org/JosefFriedrich-shell/test-helper.sh.svg?branch=master)](https://travis-ci.org/JosefFriedrich-shell/test-helper.sh)
 
-# test-helper
+# test-helper.sh
 A collection of helper functions for shell-script testing
 
 ## Testing frameworks
@@ -74,3 +74,22 @@ test_lol() {
 
 Use the environment variable `SOURCE_EXEC_SEPARATOR` to set your own
 separator string.
+
+## `patch`
+
+Useful to rename builtin command.
+
+
+```
+patch <file> <sed-statements>
+```
+
+```sh
+patch test-helper.sh 's/local /superlocal /g'
+```
+
+or multiple `sed` statements
+
+```sh
+patch test-helper.sh -e 's/local /superlocal /g' -e 's/for /superfor /g'
+```

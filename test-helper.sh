@@ -82,8 +82,12 @@ patch() {
 	rm -f "${NAME}_patched"
 	cp "${NAME}" "${NAME}_patched"
 	chmod a+x "${NAME}_patched"
-	sed -i 's/ test / test_patched /g' "${NAME}_patched"
-	if [ ! -f .gitignore ] || ! grep '*_patched' .gitignore > /dev/null 2>&1 ; then
+	shift
+	if [ -n "$1" ]; then
+		sed -i "$@" "${NAME}_patched"
+	fi
+	if [ ! -f .gitignore ] || \
+	! grep '*_patched' .gitignore > /dev/null 2>&1 ; then
 		echo '*_patched' >> .gitignore
 	fi
 }
