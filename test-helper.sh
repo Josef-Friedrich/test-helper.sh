@@ -77,6 +77,17 @@ source_exec() {
 	fi
 }
 
+patch() {
+	local NAME="$1"
+	rm -f "${NAME}_patched"
+	cp "${NAME}" "${NAME}_patched"
+	chmod a+x "${NAME}_patched"
+	sed -i 's/ test / test_patched /g' "${NAME}_patched"
+	if [ ! -f .gitignore ] || ! grep '*_patched' .gitignore > /dev/null 2>&1 ; then
+		echo '*_patched' >> .gitignore
+	fi
+}
+
 # https://github.com/pgrange/bash_unit/blob/master/bash_unit
 fake_function() {
 	local COMMAND=$1
