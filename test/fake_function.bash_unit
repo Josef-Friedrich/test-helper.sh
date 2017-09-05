@@ -1,28 +1,28 @@
 #! /bin/sh
 
-test_fake_actually_fakes_the_command() {
+setup() {
 	. ../test-helper.sh
+}
+
+
+test_fake_actually_fakes_the_command() {
 	fake_function ps echo expected
 	assert_equals "expected" $(ps)
 }
 
 test_fake_can_fake_inline() {
-	. ../test-helper.sh
 	assert_equals \
 		"expected" \
 		$(fake_function ps echo expected ; ps)
 }
 
 test_fake_exports_faked_in_subshells() {
-	. ../test-helper.sh
 	fake_function ps echo expected
 	assert_equals \
 	expected \
 	$( bash -c ps )
 }
 test_fake_transmits_params_to_fake_code() {
-	. ../test-helper.sh
-
 	_ps() {
 		assert_equals "aux" "$FAKE_PARAMS"
 	}
@@ -32,7 +32,6 @@ test_fake_transmits_params_to_fake_code() {
 }
 
 test_fake_echo_stdin_when_no_params() {
-	. ../test-helper.sh
 	fake_function ps << EOF
 PID TTY          TIME CMD
 7801 pts/9    00:00:00 bash

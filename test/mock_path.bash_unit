@@ -1,14 +1,16 @@
 #! /bin/sh
 
-test_simple() {
+setup() {
 	. ../test-helper.sh
+}
+
+test_simple() {
 	mock_path bin/bin1
 	test -n "$(echo $PATH | grep bin/bin1:)"
 	assert_equals 0 $?
 }
 
 test_simple_dash() {
-	. ../test-helper.sh
 	mock_path bin/bin1/
 	test -n "$(echo $PATH | grep bin/bin1:)"
 	assert_equals 0 $?
@@ -19,7 +21,6 @@ test_simple_dash() {
 ##
 
 test_parent() {
-	. ../test-helper.sh
 	PARENT_MOCK_PATH=bin
 	mock_path bin1:bin2:bin3
 	test -n "$(echo $PATH | grep test/bin/bin1:/)"
@@ -31,7 +32,6 @@ test_parent() {
 }
 
 test_parent_trailing_dashes() {
-	. ../test-helper.sh
 	PARENT_MOCK_PATH=$(pwd)/bin
 	mock_path bin1//:bin2///:bin3//
 	test -n "$(echo $PATH | grep test/bin/bin1:/)"
